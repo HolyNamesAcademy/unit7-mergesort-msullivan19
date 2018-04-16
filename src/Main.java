@@ -1,3 +1,4 @@
+import sun.plugin.javascript.navig.Array;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -44,11 +45,8 @@ public class Main {
      * @param arrayList the ArrayList to be sorted. arrayList cannot contain duplicates
      */
     public static void mergeSort(ArrayList<Integer> arrayList) {
-        if(arrayList.size()<=1)
-            return;
-
-        ArrayList <Integer> temp = new ArrayList<>();
-
+        sort(arrayList,0,arrayList.size());
+        merge(arrayList,0,arrayList.size()/2,arrayList.size());
 
 
     }
@@ -63,7 +61,11 @@ public class Main {
      * @param hi the index of the last element in the range + 1.
      */
     public static void sort(ArrayList<Integer> arrayList, int lo, int hi) {
-        if()
+        if(hi- lo <=1)
+            return;
+        sort(arrayList,lo,(lo+hi)/2);
+        sort(arrayList,(lo+hi)/2,hi);
+        merge(arrayList,lo,(lo+hi)/2,hi);
     }
 
     /**
@@ -78,6 +80,43 @@ public class Main {
      */
     public static void merge(ArrayList<Integer> arrayList, int lo, int mid, int hi) {
 
-        ArrayList <Integer> temp = new ArrayList<>();
+        ArrayList <Integer> sorted = new ArrayList<>();
+        sort(arrayList,lo,mid);
+        sort(arrayList, mid, hi);
+
+        for(int i= lo; i<mid; i++)
+        {
+            if(arrayList.get(i+1)< arrayList.get(i))
+            {
+                int temp = arrayList.get(i);
+                arrayList.set(i,arrayList.get(i+1));
+                arrayList.set(i+1, temp);
+
+            }
+        }
+        for(int j= mid; j<hi; j++)
+        {
+            if(arrayList.get(j+1)< arrayList.get(j))
+            {
+                int temp = arrayList.get(j);
+                arrayList.set(j,arrayList.get(j+1));
+                arrayList.set(j+1, temp);
+
+            }
+        }
+        for(int i=lo; i<mid; i++)
+        {
+            for(int j =mid; j<hi; j++)
+            {
+                if(arrayList.get(j)<arrayList.get(i))
+                    sorted.add(arrayList.get(j));
+                else
+                {
+                    sorted.add(arrayList.get(i));
+                    break;
+                }
+
+            }
+        }
     }
 }
