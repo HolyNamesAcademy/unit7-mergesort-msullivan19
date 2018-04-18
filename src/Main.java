@@ -63,9 +63,10 @@ public class Main {
     public static void sort(ArrayList<Integer> arrayList, int lo, int hi) {
         if(hi- lo <=1)
             return;
-        sort(arrayList,lo,(lo+hi)/2);
-        sort(arrayList,(lo+hi)/2,hi);
-        merge(arrayList,lo,(lo+hi)/2,hi);
+        int mid = (hi+lo)/2;
+        sort(arrayList,lo,mid);
+        sort(arrayList,mid,hi);
+        merge(arrayList,lo,mid,hi);
     }
 
     /**
@@ -80,43 +81,29 @@ public class Main {
      */
     public static void merge(ArrayList<Integer> arrayList, int lo, int mid, int hi) {
 
-        ArrayList <Integer> sorted = new ArrayList<>();
-        sort(arrayList,lo,mid);
-        sort(arrayList, mid, hi);
+        ArrayList<Integer> sorted = new ArrayList<>();
 
-        for(int i= lo; i<mid; i++)
-        {
-            if(arrayList.get(i+1)< arrayList.get(i))
+        while (lo < mid || mid < hi) {
+            if(mid == mid)
+                sorted.add(arrayList.get(lo));
+            else if(lo == mid)
+                sorted.add(arrayList.get(mid));
+            else if (arrayList.get(lo) < arrayList.get(mid))
             {
-                int temp = arrayList.get(i);
-                arrayList.set(i,arrayList.get(i+1));
-                arrayList.set(i+1, temp);
-
+                sorted.add(arrayList.get(lo));
+                lo++;
             }
+            else {
+                sorted.add(arrayList.get(mid));
+                mid++;
+            }
+
+
         }
-        for(int j= mid; j<hi; j++)
+        for(int i =0; i<arrayList.size(); i++)
         {
-            if(arrayList.get(j+1)< arrayList.get(j))
-            {
-                int temp = arrayList.get(j);
-                arrayList.set(j,arrayList.get(j+1));
-                arrayList.set(j+1, temp);
-
-            }
+            arrayList.set(i,sorted.get(i));
         }
-        for(int i=lo; i<mid; i++)
-        {
-            for(int j =mid; j<hi; j++)
-            {
-                if(arrayList.get(j)<arrayList.get(i))
-                    sorted.add(arrayList.get(j));
-                else
-                {
-                    sorted.add(arrayList.get(i));
-                    break;
-                }
 
-            }
-        }
-    }
+}
 }
